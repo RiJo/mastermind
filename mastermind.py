@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from sys import argv, exit
+from sys import argv, exit, stdout
 import random
 
 # Global variables
@@ -11,28 +11,27 @@ codepeg_count = 6
 turn_count = 10
 
 def usage():
-    print argv[0],"[-t turns] [-n codepegs] [-h]"
-    print "   -h, --help                  Printouts this help"
-    print "   -c, --codepegs=count        Code peg count (colors) used"
-    print "   -t, --turns=count           Number of turns to guess the pattern"
+    stdout.write("" + argv[0] + " [-t turns] [-n codepegs] [-h]\n")
+    stdout.write("   -h, --help                  Printouts this help\n")
+    stdout.write("   -c, --codepegs=count        Code peg count (colors) used\n")
+    stdout.write("   -t, --turns=count           Number of turns to guess the pattern\n")
 
 def intro():
-    print "--------------------------------------------------------"
-    print "  MasterMind, by RiJo"
-    print "--------------------------------------------------------"
-    print "  Code length:", code_length
-    print "  Turn count:", turn_count
-    print "  Code peg count:", codepeg_count
-    print ""
-    print "  Key pegs: ",
+    stdout.write("--------------------------------------------------------\n")
+    stdout.write("  MasterMind, by RiJo\n")
+    stdout.write("--------------------------------------------------------\n")
+    stdout.write("    Code length: " + str(code_length) + "\n")
+    stdout.write("    Turn count: " + str(turn_count) + "\n")
+    stdout.write("    Code peg count: " + str(codepeg_count) + "\n")
+    stdout.write("    Key pegs:")
     for keypeg in keypegs:
-        print " ",keypeg,
-    print ""
-    print "  Code pegs:",
+        stdout.write(" '" + keypeg + "'")
+    stdout.write("\n")
+    stdout.write("    Code pegs:")
     for codepeg in codepegs:
-        print " ",codepeg,
-    print ""
-    print "--------------------------------------------------------"
+        stdout.write(" '" + codepeg + "'")
+    stdout.write("\n")
+    stdout.write("--------------------------------------------------------\n")
 
 def start():
     # Handle args
@@ -41,22 +40,22 @@ def start():
         exit()
     
     code = "".join(random.sample(codepegs, code_length))
-    print "Randomized code:",code
+    stdout.write("Randomized code: " + code + "\n")
     
     # Start game
     if game(code, 1) == 1:
-        print "Congratulations!"
+        stdout.write("\nCongratulations!\n")
     else:
-        print "Game over!"
+        stdout.write("\nGame over!\n")
 
 def evaluate(code, input):
     # Validity check
     if len(input) != code_length:
-        print "--- Invalid length ---"
+        stdout.write("--- Invalid length ---\n")
         return 0
     for char in input:
         if not char in codepegs:
-            print "--- Invalid code peg (",char,") detected ---"
+            stdout.write("--- Invalid code peg (" + char + ") detected ---\n")
             return 0
     
     # Code evaluation
@@ -76,23 +75,21 @@ def evaluate(code, input):
     for i in unused:
         result.append(0)
     
-    print "Result: ",
+    stdout.write("Result: ")
     result.sort()
     for i in result:
-        print " ",keypegs[i],
-    print ""
+        stdout.write(" " + keypegs[i])
+    stdout.write("\n")
     return 1
 
 def game(code, turn):
     if turn > turn_count:
         return 0 # Game over
     
-    print "Turn #", turn
-    input_pattern = raw_input("> ")
+    input_pattern = raw_input("#" + str(turn) + " > ")
     if not evaluate(code, input_pattern):
-        return  game(turn) # Restart turn
+        return game(code, turn) # Restart turn
     
-    # Print key pegs (result)
     if input_pattern == code:
         return 1 # Pattern matched
     else:
