@@ -13,18 +13,18 @@ exit_commands = ["exit","e","quit","q"]
 
 def usage():
     stdout.write("" + argv[0] + " [-h] [-n codepegs] [-t turns]\n")
-    stdout.write("   -h, --help                  Printouts this help\n")
-    stdout.write("   -c, --codepegs=count        Code peg count (colors) used, default " + str(codepeg_count) + "\n")
-    stdout.write("   -t, --turns=count           Number of turns to guess the pattern, default " + str(turn_count) + "\n")
+    stdout.write("   -h, --help                  printouts this help\n")
+    stdout.write("   -c, --codepegs=count        code peg count (colors) used, default " + str(codepeg_count) + "\n")
+    stdout.write("   -t, --turns=count           number of turns to guess the pattern, default " + str(turn_count) + "\n")
     exit()
 
 def intro():
     stdout.write("--------------------------------------------------\n")
-    stdout.write("  MasterMind                             by RiJo  \n")
+    stdout.write("  mastermind                             by RiJo  \n")
     stdout.write("--------------------------------------------------\n")
-    stdout.write("  Turns: " + str(turn_count) + "\n")
-    stdout.write("  Code length: " + str(code_length) + "\n")
-    stdout.write("  Code pegs: " + ", ".join(codepegs[0:codepeg_count]) + "\n")
+    stdout.write("  turns: " + str(turn_count) + "\n")
+    stdout.write("  code length: " + str(code_length) + "\n")
+    stdout.write("  code pegs: " + ", ".join(codepegs[0:codepeg_count]) + "\n")
     stdout.write("--------------------------------------------------\n")
 
 def start():
@@ -39,19 +39,19 @@ def start():
     
     # Start game
     if game(code, 1) == 1:
-        stdout.write("  Congratulations!\n")
+        stdout.write("  congratulations!\n")
     else:
-        stdout.write("  Game over!\n")
+        stdout.write("  game over!\n")
     stdout.write("--------------------------------------------------\n")
 
 def evaluate(code, input):
     # Validity check
     if len(input) != code_length:
-        stdout.write("--- Invalid length ---\n")
+        stdout.write("--- invalid length ---\n")
         return 0
     for char in input:
         if not char in codepegs[0:codepeg_count]:
-            stdout.write("--- Invalid code peg ---\n")
+            stdout.write("--- invalid code peg ---\n")
             return 0
     
     # Code evaluation
