@@ -4,13 +4,13 @@
     current version:    0.1.0
     by:                 Rikard Johansson
 
-    The classical game as a simple script for a quick gaming session.
+    The classical game as a simple script.
 
 --------------------------------------------------------------------------------
 
 
 --------------------------------------------------------------------------------
-    version 0.1.0, xxxx-xx-xx
+    version 0.1.0, 2011-06-14
 --------------------------------------------------------------------------------
-    * 
+    * Initial version, command line arguments not implemented
 --------------------------------------------------------------------------------

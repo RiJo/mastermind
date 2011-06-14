@@ -5,48 +5,44 @@ import random
 
 # Global variables
 keypegs = [' ','.','O']
-codepegs = ['1','2','3','4','5','6']
+codepegs = ['1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
 code_length = 4
 codepeg_count = 6
 turn_count = 10
+exit_commands = ["exit","e","quit","q"]
 
 def usage():
-    stdout.write("" + argv[0] + " [-t turns] [-n codepegs] [-h]\n")
+    stdout.write("" + argv[0] + " [-h] [-n codepegs] [-t turns]\n")
     stdout.write("   -h, --help                  Printouts this help\n")
-    stdout.write("   -c, --codepegs=count        Code peg count (colors) used\n")
-    stdout.write("   -t, --turns=count           Number of turns to guess the pattern\n")
+    stdout.write("   -c, --codepegs=count        Code peg count (colors) used, default " + str(codepeg_count) + "\n")
+    stdout.write("   -t, --turns=count           Number of turns to guess the pattern, default " + str(turn_count) + "\n")
+    exit()
 
 def intro():
-    stdout.write("--------------------------------------------------------\n")
-    stdout.write("  MasterMind, by RiJo\n")
-    stdout.write("--------------------------------------------------------\n")
-    stdout.write("    Code length: " + str(code_length) + "\n")
-    stdout.write("    Turn count: " + str(turn_count) + "\n")
-    stdout.write("    Code peg count: " + str(codepeg_count) + "\n")
-    stdout.write("    Key pegs:")
-    for keypeg in keypegs:
-        stdout.write(" '" + keypeg + "'")
-    stdout.write("\n")
-    stdout.write("    Code pegs:")
-    for codepeg in codepegs:
-        stdout.write(" '" + codepeg + "'")
-    stdout.write("\n")
-    stdout.write("--------------------------------------------------------\n")
+    stdout.write("--------------------------------------------------\n")
+    stdout.write("  MasterMind                             by RiJo  \n")
+    stdout.write("--------------------------------------------------\n")
+    stdout.write("  Turns: " + str(turn_count) + "\n")
+    stdout.write("  Code length: " + str(code_length) + "\n")
+    stdout.write("  Code pegs: " + ", ".join(codepegs[0:codepeg_count]) + "\n")
+    stdout.write("--------------------------------------------------\n")
 
 def start():
     # Handle args
     if "-h" in argv or "--help" in argv:
         usage()
-        exit()
+    else:
+        intro()
     
-    code = "".join(random.sample(codepegs, code_length))
-    stdout.write("Randomized code: " + code + "\n")
+    code = "".join(random.sample(codepegs[0:codepeg_count], code_length))
+    #stdout.write("Randomized code: " + code + "\n")
     
     # Start game
     if game(code, 1) == 1:
-        stdout.write("\nCongratulations!\n")
+        stdout.write("  Congratulations!\n")
     else:
-        stdout.write("\nGame over!\n")
+        stdout.write("  Game over!\n")
+    stdout.write("--------------------------------------------------\n")
 
 def evaluate(code, input):
     # Validity check
@@ -54,8 +50,8 @@ def evaluate(code, input):
         stdout.write("--- Invalid length ---\n")
         return 0
     for char in input:
-        if not char in codepegs:
-            stdout.write("--- Invalid code peg (" + char + ") detected ---\n")
+        if not char in codepegs[0:codepeg_count]:
+            stdout.write("--- Invalid code peg ---\n")
             return 0
     
     # Code evaluation
@@ -71,11 +67,15 @@ def evaluate(code, input):
                 unused.remove(j)
                 result.append(1)
                 i += 1
-                continue
+                break
     for i in unused:
         result.append(0)
     
-    stdout.write("Result: ")
+    # Print out result
+    stdout.write("                          ")
+    for i in input:
+        stdout.write(" " + i)
+    stdout.write("      ")
     result.sort()
     for i in result:
         stdout.write(" " + keypegs[i])
@@ -86,7 +86,9 @@ def game(code, turn):
     if turn > turn_count:
         return 0 # Game over
     
-    input_pattern = raw_input("#" + str(turn) + " > ")
+    input_pattern = raw_input(" #" + str(turn).zfill(2) + "  ")
+    if input_pattern in exit_commands:
+        return 0 # Exit forced
     if not evaluate(code, input_pattern):
         return game(code, turn) # Restart turn
     
@@ -95,5 +97,4 @@ def game(code, turn):
     else:
         return game(code, turn + 1)
 
-intro()
 start()
