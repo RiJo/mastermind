@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from sys import argv, exit, stdout
+from sys import argv, exit, stdin, stdout
 import random
 
 # Global variables
@@ -56,7 +56,7 @@ def evaluate(code, input):
     
     # Code evaluation
     result = []
-    unused = range(code_length)
+    unused = [x for x in range(code_length)]
     for i in range(code_length):
         if code[i] == input[i]:
             unused.remove(i)
@@ -86,15 +86,18 @@ def game(code, turn):
     if turn > turn_count:
         return 0 # Game over
     
-    input_pattern = raw_input(" #" + str(turn).zfill(2) + "  ")
+    stdout.write(" #" + str(turn).zfill(2) + "  ")
+    stdout.flush()
+    input_pattern = stdin.readline().strip()
     if input_pattern in exit_commands:
         return 0 # Exit forced
+    
     if not evaluate(code, input_pattern):
         return game(code, turn) # Restart turn
     
     if input_pattern == code:
         return 1 # Pattern matched
     else:
-        return game(code, turn + 1)
+        return game(code, turn + 1) # Next turn
 
 start()
