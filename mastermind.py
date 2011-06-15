@@ -12,9 +12,10 @@ turn_count = 10
 exit_commands = ["exit","e","quit","q"]
 
 def usage():
-    stdout.write("" + argv[0] + " [-h] [-n codepegs] [-t turns]\n")
+    stdout.write("" + argv[0] + " [-h] [-c codepegs] [-l length] [-t turns]\n")
     stdout.write("   -h, --help                  printouts this help\n")
     stdout.write("   -c, --codepegs=count        code peg count (colors) used, default " + str(codepeg_count) + "\n")
+    stdout.write("   -l, --length=length         length of the code, default " + str(code_length) + "\n")
     stdout.write("   -t, --turns=count           number of turns to guess the pattern, default " + str(turn_count) + "\n")
     exit()
 
@@ -29,19 +30,27 @@ def intro():
 
 def start():
     # Handle args
-    if "-h" in argv or "--help" in argv:
-        usage()
-    else:
-        intro()
+    global codepeg_count, code_length, turn_count
+    for arg in argv:
+        if "-h" in arg or "--help" in arg:
+            usage()
+        elif "-c" in arg or "--codepegs=" in arg:
+            codepeg_count = codepeg_count # TODO
+        elif "-l" in arg or "--length=" in arg:
+            code_length = code_length # TODO
+        elif "-t" in arg or "--turns=" in arg:
+            turn_count = turn_count # TODO
+    
+    intro()
     
     code = "".join(random.sample(codepegs[0:codepeg_count], code_length))
     #stdout.write("Randomized code: " + code + "\n")
     
     # Start game
     if game(code, 1) == 1:
-        stdout.write("  congratulations!\n")
+        stdout.write("\n  congratulations!\n")
     else:
-        stdout.write("  game over!\n")
+        stdout.write("\n  game over!                     solution: " + code + "     \n")
     stdout.write("--------------------------------------------------\n")
 
 def evaluate(code, input):
