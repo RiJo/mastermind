@@ -38,7 +38,7 @@ def start():
         if opt[0] == "-h" or opt[0] == "--help":
             usage()
         elif "-c" in opt[0] or "--codepegs=" in opt[0]:
-            print "codepegs = ", opt[1]
+            codepeg_count = int(opt[1])
         elif "-l" in opt[0] or "--length=" in opt[0]:
             code_length = int(opt[1])
         elif "-t" in opt[0] or "--turns=" in opt[0]:
