@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from sys import argv, exit, stdin, stdout
+from getopt import getopt
 import random
 
 # Global variables
@@ -31,15 +32,17 @@ def intro():
 def start():
     # Handle args
     global codepeg_count, code_length, turn_count
-    for arg in argv:
-        if "-h" in arg or "--help" in arg:
+    
+    opts, args = getopt(argv[1:], "hc:l:t:", ["help","codepegs=","length=","turns="])
+    for opt in opts:
+        if opt[0] == "-h" or opt[0] == "--help":
             usage()
-        elif "-c" in arg or "--codepegs=" in arg:
-            codepeg_count = codepeg_count # TODO
-        elif "-l" in arg or "--length=" in arg:
-            code_length = code_length # TODO
-        elif "-t" in arg or "--turns=" in arg:
-            turn_count = turn_count # TODO
+        elif "-c" in opt[0] or "--codepegs=" in opt[0]:
+            print "codepegs = ", opt[1]
+        elif "-l" in opt[0] or "--length=" in opt[0]:
+            code_length = int(opt[1])
+        elif "-t" in opt[0] or "--turns=" in opt[0]:
+            turn_count = int(opt[1])
     
     intro()
     
