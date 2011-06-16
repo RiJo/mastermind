@@ -56,6 +56,24 @@ def start():
         stdout.write("\n  game over!                     solution: " + code + "     \n")
     stdout.write("--------------------------------------------------\n")
 
+def game(code, turn):
+    if turn > turn_count:
+        return 0 # Game over
+    
+    stdout.write(" #" + str(turn).zfill(2) + "  ")
+    stdout.flush()
+    input_pattern = stdin.readline().strip()
+    if input_pattern in exit_commands:
+        return 0 # Exit forced
+    
+    if not evaluate(code, input_pattern):
+        return game(code, turn) # Restart turn
+    
+    if input_pattern == code:
+        return 1 # Pattern matched
+    else:
+        return game(code, turn + 1) # Next turn
+
 def evaluate(code, input):
     # Validity check
     if len(input) != code_length:
@@ -93,23 +111,5 @@ def evaluate(code, input):
         stdout.write(" " + keypegs[i])
     stdout.write("\n")
     return 1
-
-def game(code, turn):
-    if turn > turn_count:
-        return 0 # Game over
-    
-    stdout.write(" #" + str(turn).zfill(2) + "  ")
-    stdout.flush()
-    input_pattern = stdin.readline().strip()
-    if input_pattern in exit_commands:
-        return 0 # Exit forced
-    
-    if not evaluate(code, input_pattern):
-        return game(code, turn) # Restart turn
-    
-    if input_pattern == code:
-        return 1 # Pattern matched
-    else:
-        return game(code, turn + 1) # Next turn
 
 start()
