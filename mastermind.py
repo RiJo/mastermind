@@ -20,13 +20,16 @@ def usage():
     stdout.write("   -t, --turns=count           number of turns to guess the pattern, default " + str(turn_count) + "\n")
     exit()
 
-def intro():
+def header():
     stdout.write("--------------------------------------------------\n")
     stdout.write("  mastermind                             by RiJo  \n")
     stdout.write("--------------------------------------------------\n")
     stdout.write("  turns: " + str(turn_count) + "\n")
     stdout.write("  code length: " + str(code_length) + "\n")
     stdout.write("  code pegs: " + ", ".join(codepegs[0:codepeg_count]) + "\n")
+    stdout.write("--------------------------------------------------\n")
+
+def footer():
     stdout.write("--------------------------------------------------\n")
 
 def start():
@@ -43,18 +46,17 @@ def start():
             code_length = int(opt[1])
         elif "-t" in opt[0] or "--turns=" in opt[0]:
             turn_count = int(opt[1])
-    
-    intro()
-    
+
     code = "".join(random.sample(codepegs[0:codepeg_count], code_length))
     #stdout.write("Randomized code: " + code + "\n")
-    
+
     # Start game
+    header()
     if game(code, 1) == 1:
         stdout.write("\n  congratulations!\n")
     else:
         stdout.write("\n  game over!                     solution: " + code + "     \n")
-    stdout.write("--------------------------------------------------\n")
+    footer()
 
 def game(code, turn):
     if turn > turn_count:
