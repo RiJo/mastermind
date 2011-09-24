@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 from signal import signal, SIGINT
 from sys import argv, exit, stdin, stdout
