@@ -55,7 +55,7 @@ def start():
             turn_count = int(opt[1])
 
     code = ''.join([codepegs[randrange(0, codepeg_count)] for x in range(code_length)])
-    stdout.write("Randomized code: " + code + "\n")
+    #stdout.write("Randomized code: " + code + "\n")
 
     # Start game
     header()
