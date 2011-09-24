@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 
     mastermind
-    current version:    0.1.0
+    current version:    0.2.0
     by:                 Rikard Johansson
 
     The classical game as a simple script.
@@ -17,8 +17,10 @@
 
 
 --------------------------------------------------------------------------------
-    version 0.2.0, xxxx-xx-xx
+    version 0.2.0, 2011-09-24
 --------------------------------------------------------------------------------
     * Python 3 compatible
     * Implemented command line arguments
+    * Added interrupt handler for SIGINT
+    * Bugfix: random generator does not generate same codepeg twice
 --------------------------------------------------------------------------------

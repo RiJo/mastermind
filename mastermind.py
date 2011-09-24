@@ -1,8 +1,15 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
+from signal import signal, SIGINT
 from sys import argv, exit, stdin, stdout
 from getopt import getopt
-import random
+from random import randrange
+
+# Add signal handler for ctrl-c
+def signal_handler(signal, frame):
+    stdout.write('\nAborted, ctrl-c pressed\n')
+    exit(0)
+signal(SIGINT, signal_handler)
 
 # Global variables
 keypegs = [' ','.','O']
@@ -14,7 +21,7 @@ exit_commands = ["exit","e","quit","q"]
 
 def usage():
     stdout.write("" + argv[0] + " [-h] [-c codepegs] [-l length] [-t turns]\n")
-    stdout.write("   -h, --help                  printouts this help\n")
+    stdout.write("   -h, --help                  print out this help\n")
     stdout.write("   -c, --codepegs=count        code peg count (colors) used, default " + str(codepeg_count) + "\n")
     stdout.write("   -l, --length=length         length of the code, default " + str(code_length) + "\n")
     stdout.write("   -t, --turns=count           number of turns to guess the pattern, default " + str(turn_count) + "\n")
@@ -22,7 +29,7 @@ def usage():
 
 def header():
     stdout.write("--------------------------------------------------\n")
-    stdout.write("  mastermind                             by RiJo  \n")
+    stdout.write("  mastermind v0.2                        by RiJo  \n")
     stdout.write("--------------------------------------------------\n")
     stdout.write("  turns: " + str(turn_count) + "\n")
     stdout.write("  code length: " + str(code_length) + "\n")
@@ -33,9 +40,9 @@ def footer():
     stdout.write("--------------------------------------------------\n")
 
 def start():
-    # Handle args
     global codepeg_count, code_length, turn_count
-    
+
+    # Handle args
     opts, args = getopt(argv[1:], "hc:l:t:", ["help","codepegs=","length=","turns="])
     for opt in opts:
         if opt[0] == "-h" or opt[0] == "--help":
@@ -47,8 +54,8 @@ def start():
         elif "-t" in opt[0] or "--turns=" in opt[0]:
             turn_count = int(opt[1])
 
-    code = "".join(random.sample(codepegs[0:codepeg_count], code_length))
-    #stdout.write("Randomized code: " + code + "\n")
+    code = ''.join([codepegs[randrange(0, codepeg_count)] for x in range(code_length)])
+    stdout.write("Randomized code: " + code + "\n")
 
     # Start game
     header()
@@ -95,7 +102,7 @@ def evaluate(code, input):
             result.append(2)
             continue
         for j in unused:
-            if code[i] == input[j]:
+            if code[i] == input[j] and code[j] != input[j]:
                 unused.remove(j)
                 result.append(1)
                 i += 1
