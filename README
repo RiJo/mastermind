@@ -24,13 +24,3 @@
     * Added interrupt handler for SIGINT
     * Bugfix: random generator does not generate same codepeg twice
 --------------------------------------------------------------------------------
-
-
---------------------------------------------------------------------------------
-    version 0.3.0, xxxx-xx-xx
---------------------------------------------------------------------------------
-    * Python 3 compatible
-    * Implemented command line arguments
-    * Added interrupt handler for SIGINT
-    * Bugfix: random generator does not generate same codepeg twice
---------------------------------------------------------------------------------
